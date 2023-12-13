@@ -1,23 +1,33 @@
 package ru.vmk.cs.endede.ostrovok.model
 
-import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.Serializable
+import com.fasterxml.jackson.annotation.JsonCreator
+import java.time.LocalDate
+import java.time.LocalDateTime
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 enum class BookingStatus {
     CREATED,
     PAYED,
-    CANCELLED,
+    CANCELLED;
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun fromString(value: String): BookingStatus {
+            return BookingStatus.valueOf(value)
+        }
+    }
 }
 
-@Serializable
 @Document(collection = "Bookings")
 data class Booking(
     @Id
     val id: String? = null,
     val roomId: Long,
     val uid: Long,
+    val fromDate: LocalDate,
+    val toDate: LocalDate,
     val createTime: LocalDateTime,
     val status: BookingStatus
 )

@@ -29,4 +29,11 @@ class RoomRepository(
     fun saveRoom(room: Room) {
         mongoTemplate.insert(room)
     }
+
+    fun findRoom(
+        offset: Long,
+        limit: Int,
+    ): Room {
+        return mongoTemplate.findOne(Query().limit(limit).skip(offset))!!
+    }
 }

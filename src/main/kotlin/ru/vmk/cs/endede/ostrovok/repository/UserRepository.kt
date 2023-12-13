@@ -41,4 +41,11 @@ class UserRepository(
             throw ex
         }
     }
+
+    fun getUser(
+        offset: Long,
+        limit: Int,
+    ): User {
+        return mongoTemplate.findOne(Query().limit(limit).skip(offset))!!
+    }
 }

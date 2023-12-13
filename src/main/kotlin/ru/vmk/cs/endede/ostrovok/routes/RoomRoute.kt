@@ -7,7 +7,6 @@ import io.ktor.server.request.receive
 import io.ktor.server.resources.get
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
 import java.lang.Exception
 import org.koin.ktor.ext.inject
 import ru.vmk.cs.endede.ostrovok.repository.RoomElasticRepository

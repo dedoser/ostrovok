@@ -21,13 +21,16 @@ val elasticModule = module {
 
         val user = elasticConfig.property("user").getString()
         val password = elasticConfig.property("password").getString()
-        val serverUrl = elasticConfig.property("url").getString()
+        val serverUrls = elasticConfig.property("url").getList()
+        val hosts = serverUrls.map {
+            HttpHost.create(it)
+        }
 
         val credentialsProvider = BasicCredentialsProvider()
         credentialsProvider.setCredentials(AuthScope.ANY, UsernamePasswordCredentials(user, password))
 
         val restClient = RestClient
-            .builder(HttpHost.create(serverUrl))
+            .builder(*hosts.toTypedArray())
             .setHttpClientConfigCallback {
                 it.disableAuthCaching()
                     .setDefaultCredentialsProvider(credentialsProvider)

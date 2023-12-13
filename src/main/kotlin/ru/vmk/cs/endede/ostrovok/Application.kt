@@ -1,7 +1,7 @@
 package ru.vmk.cs.endede.ostrovok
 
-import com.typesafe.config.ConfigFactory
-import io.ktor.serialization.kotlinx.json.json
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
@@ -15,12 +15,15 @@ import ru.vmk.cs.endede.ostrovok.configuration.elasticModule
 import ru.vmk.cs.endede.ostrovok.configuration.hazelcastModule
 import ru.vmk.cs.endede.ostrovok.configuration.mongoClient
 import ru.vmk.cs.endede.ostrovok.configuration.repositoryModule
+import ru.vmk.cs.endede.ostrovok.routes.bookingRoute
 import ru.vmk.cs.endede.ostrovok.routes.roomRouting
 import ru.vmk.cs.endede.ostrovok.routes.userRouting
 
 fun Application.main() {
     install(ContentNegotiation) {
-        json()
+        jackson {
+            registerModule(JavaTimeModule())
+        }
     }
     install(Koin) {
         slf4jLogger()
@@ -38,6 +41,7 @@ fun Application.main() {
     routing {
         userRouting()
         roomRouting()
+        bookingRoute()
     }
 
 }

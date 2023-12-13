@@ -21,6 +21,7 @@ private data class UserFindById(
 
 fun Route.userRouting() {
     val userService by inject<UserCachedService>()
+//    val generatorService by inject<GeneratorService>()
 
     get<UserFindByName> {
         val user = userService.getUserByName(it.name)
@@ -33,4 +34,8 @@ fun Route.userRouting() {
             ?: call.respond(HttpStatusCode.NotFound, "No user with id=${it.id}")
         call.respond(user)
     }
+//
+//    get("asd") {
+//        generatorService.generate()
+//    }
 }
